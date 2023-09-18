@@ -1,5 +1,5 @@
 select
 from
 where
-order by
 group by
+order by
