@@ -1,0 +1,25 @@
+declare
+cursor ds is select first_name,employee_id,department_name from employees e,departments d where  e.DEPARTMENT_ID = d.DEPARTMENT_ID;
+cursor rd is select * from employees;
+type s is record(f employees.first_name%type,e EMPLOYEES.EMPLOYEE_ID%type,d DEPARTMENTS.DEPARTMENT_NAME%type);
+r s;
+z employees%rowtype;
+begin
+open ds ;
+fetch ds into r;
+if ds%found and ds%rowcount=1 then
+execute immediate'create table emp as select * from employees'; 
+execute immediate'alter table t1 rename column e to a'; 
+elsif ds%notfound then
+delete from t1;
+elsif ds%isopen then
+close ds;
+dbms_output.put_line('cursor closed');
+end if;
+open rd;
+fetch rd into z;
+dbms_output.put_line(z.employee_id);
+close rd;
+dbms_output.put_line(r.f||' '||r.d||' '||r.e);
+end;
+/
